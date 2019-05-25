@@ -1,0 +1,36 @@
+
+# https://docs.aws.amazon.com/codepipeline/latest/userguide/reference-pipeline-structure.html
+# https://docs.aws.amazon.com/codepipeline/latest/userguide/pipelines-edit.html
+# https://docs.aws.amazon.com/code-samples/latest/catalog/cloudformation-codepipeline-template-codepipeline-codecommit-events-yaml.yml.html
+# https://docs.aws.amazon.com/codepipeline/latest/userguide/reference-pipeline-structure.html#PollForSourceChanges-defaults
+# https://docs.aws.amazon.com/codepipeline/latest/userguide/run-automatically-polling.html
+# https://docs.aws.amazon.com/codepipeline/latest/userguide/pipelines-about-starting.html#change-detection-methods
+
+
+
+  AppPipeline:
+    Type: 'AWS::CodePipeline::Pipeline'
+    Properties:
+      Name: codecommit-events-pipeline
+      RoleArn: !GetAtt 
+        - CodePipelineServiceRole
+        - Arn
+      Stages:
+        - Name: Source
+          Actions:
+            - Name: SourceAction
+              ActionTypeId:
+                Category: Source
+                Owner: AWS
+                Version: 1
+                Provider: CodeCommit
+              OutputArtifacts:
+                - Name: SourceOutput
+              Configuration:
+                BranchName: !Ref BranchName
+                RepositoryName: !Ref RepositoryName
+                PollForSourceChanges: false
+              RunOrder: 1
+
+
+

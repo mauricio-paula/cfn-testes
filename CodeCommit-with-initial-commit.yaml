@@ -1,0 +1,30 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'CodeCommit with initial commit'
+Parameters:
+  RepositoryName:
+    Type: String
+    Description: Put the name of the Repository
+    Default: MyRepo
+  RepositoryDescription:
+    Type: String
+    Description: Put the repository Description
+    Default: Example Repo
+  InitialCommitBucket:
+    Type: String
+    Description: Put the S3 Bucket Name
+    Default: koiker-upload-us-east-2
+  InitialCommitKey:
+    Type: String
+    Description: Put the S3 Object Name
+    Default: markdown.zip
+Resources:
+  Repository:
+    Type: AWS::CodeCommit::Repository
+    Properties: 
+      Code: 
+        S3: 
+          Bucket: !Ref InitialCommitBucket
+          Key: !Ref InitialCommitKey
+      RepositoryDescription: !Ref RepositoryDescription
+      RepositoryName: !Ref RepositoryName
+  
